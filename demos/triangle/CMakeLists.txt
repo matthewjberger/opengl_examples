@@ -30,8 +30,6 @@ set_target_properties(${PROJECT_NAME} PROPERTIES
 # Visual Studio specific settings
 # Requires CMake 3.8+
 if(MSVC)
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
-
     # Hide the console in Visual Studio projects in debug and release
     set_target_properties(${PROJECT_NAME} PROPERTIES
 		LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
@@ -41,6 +39,6 @@ if(MSVC)
 	# This would be a good place to store shader source files and art assets
     add_custom_command(TARGET   ${PROJECT_NAME} POST_BUILD
                                 COMMAND ${CMAKE_COMMAND} -E copy_directory
-                                ${CMAKE_SOURCE_DIR}/src/resources
+                                ${CMAKE_CURRENT_SOURCE_DIR}/resources
                                 $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
 endif(MSVC)
