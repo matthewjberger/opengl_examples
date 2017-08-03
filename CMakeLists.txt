@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(glamour)
+project(opengl_demos)
 
 # Place targets into their own solution folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -46,7 +46,7 @@ else()
     endif()
 endif()
 
-include_directories(src/Headers/
+include_directories(core/
                     vendor/assimp/include/
 					vendor/boxer/include/
                     vendor/bullet/src/
@@ -58,8 +58,8 @@ include_directories(src/Headers/
 
 # Create file globs
 file(GLOB GLAD_SOURCE vendor/glad/src/glad.c)
-file(GLOB_RECURSE PROJECT_HEADERS src/*.h)
-file(GLOB_RECURSE PROJECT_SOURCES src/*.cpp)
+file(GLOB_RECURSE CORE_HEADERS core/*.h)
+file(GLOB_RECURSE CORE_SOURCES core/*.cpp)
 file(GLOB PROJECT_CONFIGS CMakeLists.txt
                           Readme.md
                          .gitattributes
@@ -67,9 +67,9 @@ file(GLOB PROJECT_CONFIGS CMakeLists.txt
                          .gitmodules)
 
 # Use file globs to create filters for Visual Studio
-source_group("Headers" FILES ${PROJECT_HEADERS})
-source_group("Sources" FILES ${PROJECT_SOURCES})
-SOURCE_GROUP("Configs" FILES ${PROJECT_CONFIGS})
+source_group("Headers" FILES ${CORE_HEADERS})
+source_group("Sources" FILES ${CORE_SOURCES})
+source_group("Configs" FILES ${CORE_CONFIGS})
 source_group("Glad"	   FILES ${GLAD_SOURCE})
 
 # GLFW_INCLUDE_NONE tells GLFW not to include OpenGL headers.
@@ -77,41 +77,16 @@ source_group("Glad"	   FILES ${GLAD_SOURCE})
 add_definitions(-DGLFW_INCLUDE_NONE
                 -DPROJECT_SOURCE_DIR=\"${PROJECT_SOURCE_DIR}\")
 
-# Create the executable
-add_executable(${PROJECT_NAME}  ${PROJECT_SOURCES}
-                                ${PROJECT_HEADERS}
-                                ${PROJECT_CONFIGS}
-                                ${GLAD_SOURCE})
 # Link dependencies
-target_link_libraries(${PROJECT_NAME}   assimp
-										Boxer
-                                        glfw
-										freetype
-                                        ${GLFW_LIBRARIES}
-                                        ${GLAD_LIBRARIES}
-                                        BulletDynamics
-                                        BulletCollision
-                                        LinearMath)
+set( CORE_LIBS  assimp
+				Boxer
+				glfw
+				freetype
+				${GLFW_LIBRARIES}
+    			${GLAD_LIBRARIES}
+				BulletDynamics
+				BulletCollision
+				LinearMath )
 
-set_target_properties(${PROJECT_NAME} PROPERTIES
-    # Output to bin directory
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin
-)
-
-# Visual Studio specific settings
-# Requires CMake 3.8+
-if(MSVC)
-    set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${PROJECT_NAME})
-
-    # Hide the console in Visual Studio projects in debug and release
-    set_target_properties(${PROJECT_NAME} PROPERTIES
-		LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
-		LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-
-    # Copy resources folder to output folder
-	# This would be a good place to store shader source files and art assets
-    add_custom_command(TARGET   ${PROJECT_NAME} POST_BUILD
-                                COMMAND ${CMAKE_COMMAND} -E copy_directory
-                                ${CMAKE_SOURCE_DIR}/src/resources
-                                $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
-endif(MSVC)
+# Add demo directories
+add_subdirectory(demos/triangle)
