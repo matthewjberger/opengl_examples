@@ -7,7 +7,7 @@ ApplicationBase::ApplicationBase()
 	window_ = nullptr;
 }
 
-bool ApplicationBase::initialize(int initialWidth, int initialHeight, string caption)
+bool ApplicationBase::initialize_all(int initialWidth, int initialHeight, string caption)
 {
 	// Load GLFW and Create a Window
 	glfwInit();
@@ -31,6 +31,8 @@ bool ApplicationBase::initialize(int initialWidth, int initialHeight, string cap
 	gladLoadGL();
 	fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
 
+	initialize();
+
 	return true;
 }
 
@@ -44,6 +46,8 @@ void ApplicationBase::run()
 			glfwSetWindowShouldClose(window_, true);
 		}
 
+		update();
+
 		// Background Fill Color
 		glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
 		glClear(GL_COLOR_BUFFER_BIT);
@@ -54,6 +58,8 @@ void ApplicationBase::run()
 		glfwSwapBuffers(window_);
 		glfwPollEvents();
 	}
+
+	cleanup();
 
 	glfwTerminate();
 }

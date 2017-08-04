@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(DEMO_triangle)
+project(DEMO_playground)
 
 file(GLOB_RECURSE HEADERS *.h)
 file(GLOB_RECURSE SOURCES *.cpp)

@@ -89,4 +89,4 @@ set( CORE_LIBS  assimp
 				LinearMath )
 
 # Add demo directories
-add_subdirectory(demos/triangle)
+add_subdirectory(demos/playground)
