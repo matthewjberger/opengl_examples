@@ -29,7 +29,7 @@ bool ApplicationBase::initialize_all(int initialWidth, int initialHeight, string
 	// Create Context and Load OpenGL Functions
 	glfwMakeContextCurrent(window_);
 	gladLoadGL();
-	fprintf(stderr, "OpenGL %s\n", glGetString(GL_VERSION));
+	fprintf(stderr, "OpenGL %p\n", glGetString(GL_VERSION));
 
 	initialize();
 
