@@ -1,5 +1,5 @@
 cmake_minimum_required(VERSION 3.0)
-project(opengl_demos)
+project(opengl_examples)
 
 # Place targets into their own solution folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
@@ -89,5 +89,5 @@ set( CORE_LIBS  assimp
 				LinearMath )
 
 # Add demo directories
-add_subdirectory(demos/playground)
-add_subdirectory(demos/triangle)
+add_subdirectory(examples/playground)
+add_subdirectory(examples/triangle)

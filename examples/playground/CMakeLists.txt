@@ -25,7 +25,7 @@ target_link_libraries(${PROJECT_NAME} ${CORE_LIBS})
 
 # Output to bin directory
 set_target_properties(${PROJECT_NAME} PROPERTIES
-    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/Demos/${PROJECT_NAME})
+    RUNTIME_OUTPUT_DIRECTORY ${CMAKE_SOURCE_DIR}/bin/examples/${PROJECT_NAME})
 
 # Visual Studio specific settings
 # Requires CMake 3.8+
