@@ -60,11 +60,11 @@ include_directories(core/
 file(GLOB GLAD_SOURCE vendor/glad/src/glad.c)
 file(GLOB_RECURSE CORE_HEADERS core/*.h)
 file(GLOB_RECURSE CORE_SOURCES core/*.cpp)
-file(GLOB PROJECT_CONFIGS CMakeLists.txt
-                          Readme.md
-                         .gitattributes
-                         .gitignore
-                         .gitmodules)
+file(GLOB PROJECT_CONFIGS 	CMakeLists.txt
+							Readme.md
+							.gitattributes
+							.gitignore
+							.gitmodules)
 
 # Use file globs to create filters for Visual Studio
 source_group("Headers" FILES ${CORE_HEADERS})
@@ -90,3 +90,4 @@ set( CORE_LIBS  assimp
 
 # Add demo directories
 add_subdirectory(demos/playground)
+add_subdirectory(demos/triangle)
