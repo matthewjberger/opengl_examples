@@ -4,32 +4,28 @@
 
 Application::Application() { }
 Application::~Application() { }
+
 void Application::update() { }
 
 void Application::initialize()
 {
-	glfwSetWindowTitle(window_, "OpenGL RGBA Triangle Example");
+	glfwSetWindowTitle(window_, "OpenGL Uniforms Example");
 
 	const GLchar* vertexShaderSource = R"END(
 #version 330 core
 layout (location = 0) in vec3 aPos;
-layout (location = 1) in vec3 aColor; // Specify a vertex attribute for color
-out vec3 color;
 void main()
 {
-    gl_Position = vec4(aPos.x, aPos.y, aPos.z, 1.0);
-	color = aColor; // pass the color along to the fragment shader
+    gl_Position = vec4(aPos, 1.0);
 }
 )END";
 
 	const GLchar* fragmentShaderSource = R"END(
-#version 330 core
 out vec4 FragColor;
-in vec3 color;
+uniform vec4 color; // Uniforms are global
 void main()
 {
-   // Set the fragment color to the color passed from the vertex shader
-   FragColor = vec4(color, 1.0);
+    FragColor = color;
 }
 )END";
 
@@ -49,12 +45,10 @@ void main()
 	glDeleteShader(vertexShader);
 	glDeleteShader(fragmentShader);
 
-	// Specify vertex and color information for the triangle
 	float vertices[] = {
-		 // Positions        // Colors
-		 0.5f, -0.5f, 0.0f,  1.0f, 0.0f, 0.0f,  // Bottom Right
-		-0.5f, -0.5f, 0.0f,  0.0f, 1.0f, 0.0f,  // Bottom Left
-		 0.0f,  0.5f, 0.0f,  0.0f, 0.0f, 1.0f   // Top
+		-0.5f, -0.5f, 0.0f,
+		 0.5f, -0.5f, 0.0f,
+		 0.0f,  0.5f, 0.0f
 	};
 
 	glGenVertexArrays(1, &VAO_);
@@ -65,15 +59,8 @@ void main()
 
 	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
 
-	/* Specify the layout of the data in the buffer. */
-	// The first vertex attribute will be the position in this case.
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(0));
+	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
 	glEnableVertexAttribArray(0);
-
-	// The second vertex attribute will be the color in this case.
-	// Note that this data is found after the position data (3 floats in size) and is 3 floats long.
-	glVertexAttribPointer(1, 3, GL_FLOAT, GL_FALSE, 6 * sizeof(float), reinterpret_cast<void*>(3 * sizeof(float)));
-	glEnableVertexAttribArray(1);
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
@@ -84,6 +71,13 @@ void Application::render()
 	glClearColor(0.4f, 0.58f, 0.92f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
 	glUseProgram(shaderProgram_);
+
+	// Update the uniform color
+	float timeValue = glfwGetTime();
+	float greenValue = sin(timeValue) / 2.0f + 0.5f;
+	int vertexColorLocation = glGetUniformLocation(shaderProgram_, "color");
+	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+
 	glBindVertexArray(VAO_);
 	glDrawArrays(GL_TRIANGLES, 0, 3);
 }

@@ -1,7 +1,6 @@
 #pragma once
 
 #include "Application.h"
-#include <iostream>
 
 Application::Application() { }
 Application::~Application() { }

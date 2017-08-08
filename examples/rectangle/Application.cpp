@@ -8,7 +8,7 @@ void Application::update() { }
 
 void Application::initialize()
 {
-	glfwSetWindowTitle(window_, "OpenGL Triangle Example");
+	glfwSetWindowTitle(window_, "OpenGL Rectangle Example");
 
 	/* In modern OpenGL, a rectangle cannot be rendered directly.
 	 * It must be rendered using two triangles. The two points on those
