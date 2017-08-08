@@ -91,4 +91,5 @@ set( CORE_LIBS  assimp
 # Add demo directories
 add_subdirectory(examples/playground)
 add_subdirectory(examples/triangle)
+add_subdirectory(examples/triangle_rgba)
 add_subdirectory(examples/rectangle)
