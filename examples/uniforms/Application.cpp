@@ -21,6 +21,7 @@ void main()
 )END";
 
 	const GLchar* fragmentShaderSource = R"END(
+#version 330 core
 out vec4 FragColor;
 uniform vec4 color; // Uniforms are global
 void main()
