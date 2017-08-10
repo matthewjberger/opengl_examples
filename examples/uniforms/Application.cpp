@@ -20,71 +20,65 @@ void main()
 }
 )END";
 
+	/*****************************************/
+	// Declare a uniform in one of the shaders.
+	// It is globally accessible across shaders
+	// in the same program.
 	const GLchar* fragmentShaderSource = R"END(
 #version 330 core
 out vec4 FragColor;
-uniform vec4 color; // Uniforms are global
+uniform vec4 color; // Declare a uniform value
 void main()
 {
     FragColor = color;
 }
 )END";
+	/*****************************************/
 
-	int vertexShader = glCreateShader(GL_VERTEX_SHADER);
-	glShaderSource(vertexShader, 1, &vertexShaderSource, nullptr);
-	glCompileShader(vertexShader);
-
-	int fragmentShader = glCreateShader(GL_FRAGMENT_SHADER);
-	glShaderSource(fragmentShader, 1, &fragmentShaderSource, nullptr);
-	glCompileShader(fragmentShader);
-
-	shaderProgram_ = glCreateProgram();
-	glAttachShader(shaderProgram_, vertexShader);
-	glAttachShader(shaderProgram_, fragmentShader);
-	glLinkProgram(shaderProgram_);
-
-	glDeleteShader(vertexShader);
-	glDeleteShader(fragmentShader);
-
-	float vertices[] = {
+	const float vertices[] = {
 		-0.5f, -0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
 		 0.0f,  0.5f, 0.0f
 	};
 
-	glGenVertexArrays(1, &VAO_);
-	glGenBuffers(1, &VBO_);
-
-	glBindVertexArray(VAO_);
-	glBindBuffer(GL_ARRAY_BUFFER, VBO_);
-
-	glBufferData(GL_ARRAY_BUFFER, sizeof(vertices), vertices, GL_STATIC_DRAW);
-
-	glVertexAttribPointer(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
-	glEnableVertexAttribArray(0);
-
-	glBindBuffer(GL_ARRAY_BUFFER, 0);
-	glBindVertexArray(0);
+	/* Boilerplate for creating a triangle */
+	shaderProgram_.create_program();
+	shaderProgram_.add_shader_from_source(vertexShaderSource, GL_VERTEX_SHADER);
+	shaderProgram_.add_shader_from_source(fragmentShaderSource, GL_FRAGMENT_SHADER);
+	shaderProgram_.link_program();
+	vertexArray_.create();
+	vertexBuffer_.create();
+	vertexArray_.bind();
+	vertexBuffer_.bind();
+	vertexBuffer_.add_data(&vertices, sizeof(vertices));
+	vertexBuffer_.upload_data(GL_STATIC_DRAW);
+	vertexArray_.configure_attribute(0, 3, GL_FLOAT, GL_FALSE, 3 * sizeof(float), static_cast<void*>(nullptr));
+	vertexArray_.enable_attribute(0);
+	vertexBuffer_.unbind();
+	vertexArray_.unbind();
 }
 
 void Application::render()
 {
 	glClearColor(0.4f, 0.58f, 0.92f, 1.0f);
 	glClear(GL_COLOR_BUFFER_BIT);
-	glUseProgram(shaderProgram_);
+	shaderProgram_.use();
 
-	// Update the uniform color
+	/**********************************************************/
+	// Update the uniform color according to the current time
 	float timeValue = glfwGetTime();
 	float greenValue = sin(timeValue) / 2.0f + 0.5f;
-	int vertexColorLocation = glGetUniformLocation(shaderProgram_, "color");
+	int vertexColorLocation = glGetUniformLocation(shaderProgram_.id(), "color");
 	glUniform4f(vertexColorLocation, 0.0f, greenValue, 0.0f, 1.0f);
+	/**********************************************************/
 
-	glBindVertexArray(VAO_);
-	glDrawArrays(GL_TRIANGLES, 0, 3);
+	vertexArray_.bind();
+	vertexArray_.draw_arrays(GL_TRIANGLES, 0, 3);
 }
 
 void Application::cleanup()
 {
-	glDeleteVertexArrays(1, &VAO_);
-	glDeleteBuffers(1, &VBO_);
+	vertexArray_.free();
+	vertexBuffer_.free();
+	shaderProgram_.delete_program();
 }
