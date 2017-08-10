@@ -96,9 +96,6 @@ void main()
 
 	glBindBuffer(GL_ARRAY_BUFFER, 0);
 	glBindVertexArray(0);
-
-	// Uncomment this call to draw in wireframe.
-	//glPolygonMode(GL_FRONT_AND_BACK, GL_LINE);
 }
 
 void Application::render()
