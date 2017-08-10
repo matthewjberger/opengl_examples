@@ -35,7 +35,7 @@ void main()
 )END";
 	/*****************************************/
 
-	const float vertices[] = {
+	float vertices[] = {
 		-0.5f, -0.5f, 0.0f,
 		 0.5f, -0.5f, 0.0f,
 		 0.0f,  0.5f, 0.0f
