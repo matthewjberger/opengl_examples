@@ -1,6 +1,11 @@
 cmake_minimum_required(VERSION 3.0)
 project(opengl_examples)
 
+# Specify build type
+IF(NOT CMAKE_BUILD_TYPE)
+	SET(CMAKE_BUILD_TYPE Debug)
+ENDIF(NOT CMAKE_BUILD_TYPE)
+
 # Place targets into their own solution folders
 set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
@@ -94,3 +99,4 @@ add_subdirectory(examples/triangle)
 add_subdirectory(examples/triangle_rgba)
 add_subdirectory(examples/rectangle)
 add_subdirectory(examples/uniforms)
+add_subdirectory(examples/textures)

@@ -34,11 +34,4 @@ if(MSVC)
     set_target_properties(${PROJECT_NAME} PROPERTIES
 		LINK_FLAGS_DEBUG "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup"
 		LINK_FLAGS_RELEASE "/SUBSYSTEM:WINDOWS /ENTRY:mainCRTStartup")
-
-    # Copy resources folder to output folder
-	# This would be a good place to store shader source files and art assets
-    add_custom_command(TARGET   ${PROJECT_NAME} POST_BUILD
-                                COMMAND ${CMAKE_COMMAND} -E copy_directory
-                                ${CMAKE_CURRENT_SOURCE_DIR}/resources
-                                $<TARGET_FILE_DIR:${PROJECT_NAME}>/resources)
 endif(MSVC)
