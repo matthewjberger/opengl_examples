@@ -1,9 +1,10 @@
 #pragma once
 
 #include "ApplicationBase.h"
-#include "ShaderProgram.h"
 #include "VertexArray.h"
 #include "Buffer.h"
+#include "ShaderProgram.h"
+#include "Texture.h"
 
 class Application : public ApplicationBase
 {
@@ -17,8 +18,9 @@ public:
 	void render() override;
 
 private:
-	GLuint textureId_ = 0;
 	VertexArray vertexArray_;
 	Buffer vertexBuffer_;
+	Buffer elementBuffer_;
 	ShaderProgram shaderProgram_;
+	Texture texture_;
 };

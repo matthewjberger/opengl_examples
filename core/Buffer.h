@@ -10,9 +10,9 @@ public:
 	Buffer();
 	~Buffer() = default;
 
-	void create(GLint size = 0);
+	void create(GLuint type = GL_ARRAY_BUFFER, GLint size = 0);
 	void free();
-	void bind(GLuint bufferType = GL_ARRAY_BUFFER);
+	void bind() const;
 	void unbind() const;
 	void add_data(void* newData, GLuint dataSize);
 	void upload_data(GLenum drawingHint = GL_STATIC_DRAW);

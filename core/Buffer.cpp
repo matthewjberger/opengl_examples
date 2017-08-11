@@ -13,15 +13,15 @@ void Buffer::free()
     data_.clear();
 }
 
-void Buffer::create(GLint size)
+void Buffer::create(GLuint type, GLint size)
 {
     glGenBuffers(1, &buffer_);
     data_.reserve(size);
+	type_ = type;
 }
 
-void Buffer::bind(GLuint bufferType)
+void Buffer::bind() const
 {
-    type_ = bufferType;
     glBindBuffer(type_, buffer_);
 }
 

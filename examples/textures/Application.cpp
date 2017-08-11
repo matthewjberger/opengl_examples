@@ -1,7 +1,10 @@
 #pragma once
 
 #include "Application.h"
-#define STB_IMAGE_IMPLEMENTATION
+// This is defined in Texture.cpp already
+// but normally you would need this line
+// in order to use stb_image.
+//#define STB_IMAGE_IMPLEMENTATION
 #include "stb_image.h"
 
 Application::Application() { }
