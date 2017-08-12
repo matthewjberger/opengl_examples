@@ -87,7 +87,7 @@ void Application::render()
 	/*******************************************/
 	/* Manipulate the model matrix in some way */
 	/* and then create the MVP matrix          */
-	// Wobble the quad
+	// Rotate the quad
 	modelMatrix = glm::rotate(modelMatrix, glm::radians(60.0f) * deltaTime_, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Compute the mvp matrix and assign it to the uniform in the shader
