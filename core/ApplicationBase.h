@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "includes.h"
 #include <GLFW/glfw3.h>
@@ -19,4 +19,6 @@ protected:
 	virtual void render() = 0;
 
 	GLFWwindow* window_;
+	float deltaTime_;
+	float lastFrame_;
 };

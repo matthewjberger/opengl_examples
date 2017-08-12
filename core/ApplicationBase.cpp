@@ -1,10 +1,12 @@
-#include "ApplicationBase.h"
+﻿#include "ApplicationBase.h"
 
 using namespace std;
 
 ApplicationBase::ApplicationBase()
 {
 	window_ = nullptr;
+	deltaTime_ = 0.0f;
+	lastFrame_ = 0.0f;
 }
 
 bool ApplicationBase::initialize_all(int initialWidth, int initialHeight, string caption)
@@ -41,6 +43,11 @@ void ApplicationBase::run()
 	// Rendering Loop
 	while (glfwWindowShouldClose(window_) == false)
 	{
+		// Calculate delta time
+		float currentFrame = glfwGetTime();
+		deltaTime_ = currentFrame - lastFrame_;
+		lastFrame_ = currentFrame;
+
 		if (glfwGetKey(window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
 		{
 			glfwSetWindowShouldClose(window_, true);

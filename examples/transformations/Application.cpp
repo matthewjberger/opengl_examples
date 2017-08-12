@@ -1,4 +1,4 @@
-#pragma once
+﻿#pragma once
 
 #include "Application.h"
 
@@ -88,7 +88,7 @@ void Application::render()
 	/* Manipulate the model matrix in some way */
 	/* and then create the MVP matrix          */
 	// Wobble the quad
-	modelMatrix = glm::rotate(glm::mat4(1.0f), sin(static_cast<float>(glfwGetTime())) * 0.5f, glm::vec3(0.0f, 1.0f, 0.0f));
+	modelMatrix = glm::rotate(modelMatrix, glm::radians(60.0f) * deltaTime_, glm::vec3(0.0f, 1.0f, 0.0f));
 
 	// Compute the mvp matrix and assign it to the uniform in the shader
 	// The order matters here. Right multiply projection * view * model
