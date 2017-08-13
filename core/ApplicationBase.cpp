@@ -55,7 +55,7 @@ void ApplicationBase::run()
 
 		update();
 
-		// Enable detph testing
+		// Enable depth testing
 		glEnable(GL_DEPTH_TEST);
 
 		// Background Fill Color
