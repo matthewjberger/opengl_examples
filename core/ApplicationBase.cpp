@@ -55,9 +55,12 @@ void ApplicationBase::run()
 
 		update();
 
+		// Enable detph testing
+		glEnable(GL_DEPTH_TEST);
+
 		// Background Fill Color
 		glClearColor(0.25f, 0.25f, 0.25f, 1.0f);
-		glClear(GL_COLOR_BUFFER_BIT);
+		glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
 
 		render();
 
