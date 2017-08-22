@@ -13,8 +13,8 @@ bool ApplicationBase::initialize_all(int initialWidth, int initialHeight, string
 {
 	// Load GLFW and Create a Window
 	glfwInit();
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 3);
-	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 3);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MAJOR, 4);
+	glfwWindowHint(GLFW_CONTEXT_VERSION_MINOR, 4);
 	glfwWindowHint(GLFW_OPENGL_PROFILE, GLFW_OPENGL_CORE_PROFILE);
 	glfwWindowHint(GLFW_OPENGL_FORWARD_COMPAT, GL_TRUE);
 	glfwWindowHint(GLFW_RESIZABLE, GL_FALSE);
@@ -28,8 +28,13 @@ bool ApplicationBase::initialize_all(int initialWidth, int initialHeight, string
 		return false;
 	}
 
-	// Create Context and Load OpenGL Functions
+	// Create Context
 	glfwMakeContextCurrent(window_);
+
+	// Capture the mouse
+	glfwSetInputMode(window_, GLFW_CURSOR, GLFW_CURSOR_DISABLED);
+
+	// Load OpenGL Functions
 	gladLoadGL();
 	fprintf(stderr, "OpenGL %p\n", glGetString(GL_VERSION));
 
@@ -47,11 +52,6 @@ void ApplicationBase::run()
 		float currentFrame = glfwGetTime();
 		deltaTime_ = currentFrame - lastFrame_;
 		lastFrame_ = currentFrame;
-
-		if (glfwGetKey(window_, GLFW_KEY_ESCAPE) == GLFW_PRESS)
-		{
-			glfwSetWindowShouldClose(window_, true);
-		}
 
 		update();
 
@@ -72,4 +72,31 @@ void ApplicationBase::run()
 	cleanup();
 
 	glfwTerminate();
+}
+
+void ApplicationBase::framebuffer_size_callback(GLFWwindow* window, int width, int height)
+{
+	glViewport(0, 0, width, height);
+	on_framebuffer_size_callback(window, width, height);
+}
+
+void ApplicationBase::mouse_callback(GLFWwindow* window, double xPos, double yPos)
+{
+	on_mouse_callback(window, xPos, yPos);
+}
+
+void ApplicationBase::scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	on_scroll_callback(window, xOffset, yOffset);
+}
+
+void ApplicationBase::key_callback(GLFWwindow* window, int key, int scancode, int action, int mods)
+{
+	if (key == GLFW_KEY_ESCAPE && action == GLFW_PRESS)
+	{
+		glfwSetWindowShouldClose(window_, true);
+		return;
+	}
+
+	on_key_callback(window, key, scancode, action, mods);
 }
