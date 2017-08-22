@@ -2,12 +2,15 @@
 
 #include "Application.h"
 
-Application::Application() { }
-Application::~Application() { }
-void Application::update() { }
+Application::Application() { camera_ = nullptr; }
+Application::~Application() { delete camera_; }
 
 void Application::initialize()
 {
+	int width, height;
+	glfwGetWindowSize(window_, &width, &height);
+	camera_ = new Camera(width, height);
+
 	glfwSetWindowTitle(window_, "OpenGL Transformations Example");
 
 	/* Boilerplate for drawing a rectangle using indices */
@@ -92,12 +95,27 @@ void Application::render()
 
 	// Compute the mvp matrix and assign it to the uniform in the shader
 	// The order matters here. Right multiply projection * view * model
-	mvpMatrix = projectionMatrix * viewMatrix * modelMatrix;
+	mvpMatrix = projectionMatrix * camera_->view_matrix() * modelMatrix;
 	shaderProgram_.set_uniform("mvpMatrix", mvpMatrix);
 	/*******************************************/
 
 	texture_.bind();
 	vertexArray_.draw_elements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+}
+
+void Application::update()
+{
+	camera_->handle_keystates(window_, deltaTime_);
+}
+
+void Application::on_mouse_callback(GLFWwindow* window, double xPos, double yPos)
+{
+	camera_->mouse_callback(window, xPos, yPos);
+}
+
+void Application::on_scroll_callback(GLFWwindow* window, double xOffset, double yOffset)
+{
+	camera_->process_mouse_scroll(yOffset);
 }
 
 void Application::cleanup()
