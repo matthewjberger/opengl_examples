@@ -7,9 +7,7 @@ Application::~Application() { delete camera_; }
 
 void Application::initialize()
 {
-	int width, height;
-	glfwGetWindowSize(window_, &width, &height);
-	camera_ = new Camera(width, height);
+	camera_ = new Camera(window_,  glm::vec3(0.0f, 0.0f, 2.0f));
 
 	glfwSetWindowTitle(window_, "OpenGL Transformations Example");
 
@@ -77,7 +75,6 @@ void Application::render()
 	/**********************************************/
 	/* Build model, view, and projection matrices */
 	static glm::mat4 projectionMatrix = glm::perspective(45.0f, 3.0f / 4.0f, 0.1f, 100.0f);
-	static glm::mat4 viewMatrix = glm::lookAt(glm::vec3(0.0f, 0.0f, -2.0f), glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
 	static glm::mat4 modelMatrix = glm::mat4(1.0f);
 	static glm::mat4 mvpMatrix;
 	/**********************************************/

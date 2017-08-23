@@ -1,7 +1,7 @@
 #include "CameraBase.h"
 #include <glm/gtc/matrix_transform.inl>
 
-CameraBase::CameraBase(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(SPEED), MouseSensitivity(SENSITIVITY), Zoom(ZOOM)
+CameraBase::CameraBase(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(CAMERA_SPEED), MouseSensitivity(CAMERA_SENSITIVITY), Zoom(CAMERA_ZOOM)
 {
 	Position = position;
 	WorldUp = up;
@@ -18,10 +18,10 @@ glm::mat4 CameraBase::view_matrix() const
 void CameraBase::process_keyboard(CameraDirection direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
-	if (direction == FORWARD)  Position += Front * velocity;
-	if (direction == BACKWARD) Position -= Front * velocity;
-	if (direction == LEFT)     Position -= Right * velocity;
-	if (direction == RIGHT)    Position += Right * velocity;
+	if (direction == CAMERA_FORWARD)  Position += Front * velocity;
+	if (direction == CAMERA_BACKWARD) Position -= Front * velocity;
+	if (direction == CAMERA_LEFT)     Position -= Right * velocity;
+	if (direction == CAMERA_RIGHT)    Position += Right * velocity;
 }
 
 void CameraBase::process_mouse_motion(float xoffset, float yoffset, GLboolean constrainPitch)

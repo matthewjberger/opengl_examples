@@ -1,7 +1,14 @@
 #include "Camera.h"
 
-Camera::Camera(float windowWidth, float windowHeight)
+Camera::Camera(
+	GLFWwindow* window,
+	glm::vec3 position,
+	glm::vec3 up, float yaw,
+	float pitch) :
+CameraBase(position, up, yaw, pitch)
 {
+	int windowWidth, windowHeight;
+	glfwGetWindowSize(window, &windowWidth, &windowHeight);
 	lastX_ = windowWidth / 2.0f;
 	lastY_ = windowHeight / 2.0f;
 	firstMouse_ = true;
@@ -10,13 +17,13 @@ Camera::Camera(float windowWidth, float windowHeight)
 void Camera::handle_keystates(GLFWwindow* window, float deltaTime)
 {
 	if (glfwGetKey(window, GLFW_KEY_W) == GLFW_PRESS)
-		process_keyboard(FORWARD, deltaTime);
+		process_keyboard(CAMERA_FORWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_S) == GLFW_PRESS)
-		process_keyboard(BACKWARD, deltaTime);
+		process_keyboard(CAMERA_BACKWARD, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_A) == GLFW_PRESS)
-		process_keyboard(LEFT, deltaTime);
+		process_keyboard(CAMERA_LEFT, deltaTime);
 	if (glfwGetKey(window, GLFW_KEY_D) == GLFW_PRESS)
-		process_keyboard(RIGHT, deltaTime);
+		process_keyboard(CAMERA_RIGHT, deltaTime);
 }
 
 void Camera::mouse_callback(GLFWwindow* window, double xPos, double yPos)
@@ -29,7 +36,8 @@ void Camera::mouse_callback(GLFWwindow* window, double xPos, double yPos)
 	}
 
 	float xOffset = xPos - lastX_;
-	float yOffset = lastY_ - yPos; // reversed since y-coordinates go from bottom to top
+	// Reversed because Y-Coordinates go from bottom to top
+	float yOffset = lastY_ - yPos;
 
 	lastX_ = xPos;
 	lastY_ = yPos;

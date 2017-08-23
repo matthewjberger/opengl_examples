@@ -4,22 +4,27 @@
 #include <glm/glm.hpp>
 
 enum CameraDirection {
-	FORWARD,
-	BACKWARD,
-	LEFT,
-	RIGHT
+	CAMERA_FORWARD,
+	CAMERA_BACKWARD,
+	CAMERA_LEFT,
+	CAMERA_RIGHT
 };
 
-const float YAW = -90.0f;
-const float PITCH = 0.0f;
-const float SPEED = 2.5f;
-const float SENSITIVITY = 0.1f;
-const float ZOOM = 45.0f;
+// Camera default settings
+const float CAMERA_YAW = -90.0f;
+const float CAMERA_PITCH = 0.0f;
+const float CAMERA_SPEED = 2.5f;
+const float CAMERA_SENSITIVITY = 0.1f;
+const float CAMERA_ZOOM = 45.0f;
 
 class CameraBase
 {
 public:
-	explicit CameraBase(glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f), glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f), float yaw = YAW, float pitch = PITCH);
+	explicit CameraBase(
+		glm::vec3 position = glm::vec3(0.0f, 0.0f, 0.0f),
+		glm::vec3 up = glm::vec3(0.0f, 1.0f, 0.0f),
+		float yaw = CAMERA_YAW,
+		float pitch = CAMERA_PITCH);
 
 	void process_keyboard(CameraDirection direction, float deltaTime);
 	void process_mouse_motion(float xoffset, float yoffset, GLboolean constrainPitch = true);
