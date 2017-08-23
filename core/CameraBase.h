@@ -10,13 +10,6 @@ enum CameraDirection {
 	CAMERA_RIGHT
 };
 
-// Camera default settings
-const float CAMERA_YAW = -90.0f;
-const float CAMERA_PITCH = 0.0f;
-const float CAMERA_SPEED = 2.5f;
-const float CAMERA_SENSITIVITY = 0.1f;
-const float CAMERA_ZOOM = 45.0f;
-
 class CameraBase
 {
 public:
@@ -48,6 +41,13 @@ protected:
 	float MovementSpeed;
 	float MouseSensitivity;
 	float Zoom;
+
+	// Camera default settings
+	static constexpr float CAMERA_YAW = -90.0f;
+	static constexpr float CAMERA_PITCH = 0.0f;
+	static constexpr float CAMERA_SPEED = 2.5f;
+	static constexpr float CAMERA_SENSITIVITY = 0.1f;
+	static constexpr float CAMERA_ZOOM = 45.0f;
 
 private:
 	void calculate_vectors();
