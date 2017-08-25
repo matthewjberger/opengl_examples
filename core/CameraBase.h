@@ -24,6 +24,7 @@ public:
 	void process_mouse_scroll(float yoffset);
 
 	glm::mat4 view_matrix() const;
+	float zoom() const;
 
 protected:
 	// Camera Attributes

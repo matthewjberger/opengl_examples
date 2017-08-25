@@ -15,6 +15,11 @@ glm::mat4 CameraBase::view_matrix() const
 	return glm::lookAt(Position, Position + Front, Up);
 }
 
+float CameraBase::zoom() const
+{
+	return Zoom;
+}
+
 void CameraBase::process_keyboard(CameraDirection direction, float deltaTime)
 {
 	float velocity = MovementSpeed * deltaTime;
