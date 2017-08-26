@@ -2,7 +2,7 @@
 
 #include "Application.h"
 
-Application::Application() { camera_ = nullptr; }
+Application::Application(): skybox_(nullptr) { camera_ = nullptr; }
 Application::~Application() { delete camera_; }
 
 void Application::initialize()
@@ -68,6 +68,15 @@ void Application::initialize()
 	vertexArray_.unbind();
 
 	texture_.create_texture_from_file("resources/iceberg.png");
+
+	SkyboxParameters skyboxParameters;
+	skyboxParameters.left   = "resources/skybox/left.tga",
+	skyboxParameters.right  = "resources/skybox/right.tga",
+	skyboxParameters.top    = "resources/skybox/top.tga",
+	skyboxParameters.bottom = "resources/skybox/bottom.tga",
+	skyboxParameters.back   = "resources/skybox/back.tga",
+	skyboxParameters.front  = "resources/skybox/front.tga",
+	skybox_ = new Skybox(skyboxParameters);
 }
 
 void Application::render()
@@ -98,6 +107,8 @@ void Application::render()
 
 	texture_.bind();
 	vertexArray_.draw_elements(GL_TRIANGLES, 6, GL_UNSIGNED_INT, nullptr);
+
+	skybox_->draw(projectionMatrix, camera_->view_matrix());
 }
 
 void Application::update()

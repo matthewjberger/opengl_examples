@@ -6,6 +6,7 @@
 #include "ShaderProgram.h"
 #include "Texture.h"
 #include "Camera.h"
+#include "Skybox.h"
 
 class Application : public ApplicationBase
 {
@@ -28,4 +29,5 @@ private:
 	ShaderProgram shaderProgram_;
 	Texture texture_;
 	Camera* camera_;
+	Skybox* skybox_;
 };
