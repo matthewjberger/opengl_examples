@@ -1,5 +1,4 @@
 #include "Skybox.h"
-#include <stb_image.h>
 
 Skybox::Skybox(const SkyboxParameters &skyboxParameters)
 {
