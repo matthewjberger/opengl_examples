@@ -83,7 +83,7 @@ void Application::render()
 {
 	/**********************************************/
 	/* Build model, view, and projection matrices */
-	static glm::mat4 projectionMatrix = glm::perspective(45.0f, 3.0f / 4.0f, 0.1f, 100.0f);
+	glm::mat4 projectionMatrix = glm::perspective(camera_->zoom(), 3.0f / 4.0f, 0.1f, 100.0f);
 	static glm::mat4 modelMatrix = glm::mat4(1.0f);
 	static glm::mat4 mvpMatrix;
 	/**********************************************/

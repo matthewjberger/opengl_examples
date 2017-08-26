@@ -1,7 +1,11 @@
 #include "CameraBase.h"
 #include <glm/gtc/matrix_transform.inl>
 
-CameraBase::CameraBase(glm::vec3 position, glm::vec3 up, float yaw, float pitch) : Front(glm::vec3(0.0f, 0.0f, -1.0f)), MovementSpeed(CAMERA_SPEED), MouseSensitivity(CAMERA_SENSITIVITY), Zoom(CAMERA_ZOOM)
+CameraBase::CameraBase(glm::vec3 position, glm::vec3 up, float yaw, float pitch) :
+	Front(glm::vec3(0.0f, 0.0f, -1.0f)),
+	MovementSpeed(CAMERA_SPEED),
+	MouseSensitivity(CAMERA_SENSITIVITY),
+	Zoom(CAMERA_ZOOM)
 {
 	Position = position;
 	WorldUp = up;
@@ -48,9 +52,11 @@ void CameraBase::process_mouse_motion(float xoffset, float yoffset, GLboolean co
 
 void CameraBase::process_mouse_scroll(float yoffset)
 {
-	if (Zoom >= 1.0f && Zoom <= 45.0f) Zoom -= yoffset;
-	if (Zoom <= 1.0f)  Zoom = 1.0f;
-	if (Zoom >= 45.0f) Zoom = 45.0f;
+	float minFov = glm::radians(1.0f);
+	float maxFov = glm::radians(45.0f);
+	if (Zoom >= minFov && Zoom <= maxFov) Zoom -= glm::radians(yoffset);
+	if (Zoom <= minFov) Zoom = minFov;
+	if (Zoom >= maxFov) Zoom = maxFov;
 }
 
 void CameraBase::calculate_vectors()
