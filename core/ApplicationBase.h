@@ -1,6 +1,6 @@
 ﻿#pragma once
 
-#include "includes.h"
+#include "Includes.h"
 #include <GLFW/glfw3.h>
 
 class ApplicationBase

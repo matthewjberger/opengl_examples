@@ -67,7 +67,7 @@ void Application::initialize()
 	vertexBuffer_.unbind();
 	vertexArray_.unbind();
 
-	texture_.create_from_file("resources/iceberg.png");
+	texture_.create_texture_from_file("resources/iceberg.png");
 }
 
 void Application::render()
